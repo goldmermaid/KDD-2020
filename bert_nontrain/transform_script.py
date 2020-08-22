@@ -1599,10 +1599,43 @@ def predict_fn(input_data, model):
         segment_ids = torch.tensor(np.reshape(input_data[1], (1,inp_len)), dtype=torch.long, device=device)
         input_mask = torch.tensor(np.reshape(input_data[2],(1,inp_len)), dtype=torch.long, device=device)
         start_logits, end_logits = model(input_ids, segment_ids, input_mask)
-    # post-processing
+        # post-processing
         start_logits = start_logits[0].detach().cpu().tolist() 
         end_logits = end_logits[0].detach().cpu().tolist()
-    return start_logits,end_logits 
+     
+
+    doc_tokens = context.split()
+    tokenizer = BertTokenizer('vocab', do_lower_case=True, max_len=512)
+    query_tokens = tokenizer.tokenize(question)
+    feature = preprocess_tokenized_text(doc_tokens, 
+                                        query_tokens, 
+                                        tokenizer, 
+                                        max_seq_length=384, 
+                                        max_query_length=64)
+    tensors_for_inference, tokens_for_postprocessing = feature
+    final_response = get_predictions(doc_tokens, tokens_for_postprocessing, 
+                             start_logits, end_logits, n_best_size=1, 
+                             max_answer_length=64, do_lower_case=True, 
+                             can_give_negative_answer=True, 
+                             null_score_diff_threshold=-11.0)
+    
+    return final_response[0]["text"]
+
+# def predict_fn(input_data, model):
+#     # run prediction
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     model.to(device)
+#     model.eval()
+#     with torch.no_grad():
+#         inp_len = 384 #input_data.shape[1]
+#         input_ids = torch.tensor(np.reshape(input_data[0], (1,inp_len)), dtype=torch.long, device=device)
+#         segment_ids = torch.tensor(np.reshape(input_data[1], (1,inp_len)), dtype=torch.long, device=device)
+#         input_mask = torch.tensor(np.reshape(input_data[2],(1,inp_len)), dtype=torch.long, device=device)
+#         start_logits, end_logits = model(input_ids, segment_ids, input_mask)
+#     # post-processing
+#         start_logits = start_logits[0].detach().cpu().tolist() 
+#         end_logits = end_logits[0].detach().cpu().tolist()
+#     return start_logits,end_logits 
     
 def model_fn(model_dir):
     config = BertConfig.from_json_file('bert_config.json')
