@@ -30,19 +30,19 @@ CALC_TRAIN_v1=`cat ${v1}/train-v1.1.json |md5sum`
 CALC_DEV_v1=`cat ${v1}/dev-v1.1.json |md5sum`
 CALC_EVAL_v1=`cat ${v1}/evaluate-v1.1.py |md5sum`
 
-v2="v2.0"
-mkdir $v2
-wget https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json -O $v2/train-v2.0.json
-wget https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json -O $v2/dev-v2.0.json
-wget https://worksheets.codalab.org/rest/bundles/0x6b567e1cf2e041ec80d7098f031c5c9e/contents/blob/ -O $v2/evaluate-v2.0.py
+# v2="v2.0"
+# mkdir $v2
+# wget https://rajpurkar.github.io/SQuAD-explorer/dataset/train-v2.0.json -O $v2/train-v2.0.json
+# wget https://rajpurkar.github.io/SQuAD-explorer/dataset/dev-v2.0.json -O $v2/dev-v2.0.json
+# wget https://worksheets.codalab.org/rest/bundles/0x6b567e1cf2e041ec80d7098f031c5c9e/contents/blob/ -O $v2/evaluate-v2.0.py
 
-EXP_TRAIN_v2='62108c273c268d70893182d5cf8df740  -'
-EXP_DEV_v2='246adae8b7002f8679c027697b0b7cf8  -'
-EXP_EVAL_v2='ff23213bed5516ea4a6d9edb6cd7d627  -'
+# EXP_TRAIN_v2='62108c273c268d70893182d5cf8df740  -'
+# EXP_DEV_v2='246adae8b7002f8679c027697b0b7cf8  -'
+# EXP_EVAL_v2='ff23213bed5516ea4a6d9edb6cd7d627  -'
 
-CALC_TRAIN_v2=`cat ${v2}/train-v2.0.json |md5sum`
-CALC_DEV_v2=`cat ${v2}/dev-v2.0.json |md5sum`
-CALC_EVAL_v2=`cat ${v2}/evaluate-v2.0.py |md5sum`
+# CALC_TRAIN_v2=`cat ${v2}/train-v2.0.json |md5sum`
+# CALC_DEV_v2=`cat ${v2}/dev-v2.0.json |md5sum`
+# CALC_EVAL_v2=`cat ${v2}/evaluate-v2.0.py |md5sum`
 
 echo "Squad data download done!"
 
